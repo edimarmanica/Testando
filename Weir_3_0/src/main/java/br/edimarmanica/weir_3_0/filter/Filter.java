@@ -7,9 +7,7 @@ package br.edimarmanica.weir_3_0.filter;
 
 import br.edimarmanica.dataset.Site;
 import br.edimarmanica.weir_3_0.bean.Rule;
-import br.edimarmanica.weir_3_0.bean.Value;
 import br.edimarmanica.weir_3_0.load.LoadRules;
-import br.edimarmanica.weir_3_0.util.SiteUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

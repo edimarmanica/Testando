@@ -62,7 +62,7 @@ public class DomainFilters {
         Domain domain = br.edimarmanica.dataset.orion.Domain.DRIVER;
         String path = Paths.PATH_INTRASITE;
         DomainFilters filters = new DomainFilters(domain, path);
-        filters.executeIntraSiteFilters();
-        //filters.executeInterSiteFilters();
+        //filters.executeIntraSiteFilters();
+        filters.executeInterSiteFilters();
     }
 }

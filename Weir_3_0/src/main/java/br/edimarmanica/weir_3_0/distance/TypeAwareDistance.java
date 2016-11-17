@@ -18,9 +18,9 @@ import java.util.Set;
 public abstract class TypeAwareDistance {
 
     public static double typeDistance(Rule r1, Rule s1) {
-        if (General.DEBUG) {
+       /* if (General.DEBUG) {
             System.out.println("Computing the distance between rule " + r1.getRuleID() + " of Site " + r1.getSite().getFolderName() + " with rule " + s1.getRuleID() + " of Site " + s1.getSite().getFolderName());
-        }
+        }*/
 
         DataType type = DataTypeController.getMostSpecificType(r1, s1);
         TypeAwareDistance distance;
@@ -60,9 +60,9 @@ public abstract class TypeAwareDistance {
         } catch (InsufficientOverlapException ex) {
             distanceValue = 1;
         }
-        if (General.DEBUG) {
+        /*if (General.DEBUG) {
             System.out.println("\tScore: " + distanceValue);
-        }
+        }*/
 
         return distanceValue;
     }
