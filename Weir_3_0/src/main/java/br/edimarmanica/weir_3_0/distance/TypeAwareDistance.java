@@ -4,7 +4,6 @@
  */
 package br.edimarmanica.weir_3_0.distance;
 
-import br.edimarmanica.configuration.General;
 import br.edimarmanica.configuration.InterSite;
 import br.edimarmanica.weir_3_0.bean.Rule;
 import br.edimarmanica.weir_3_0.bean.Value;
@@ -86,15 +85,16 @@ public abstract class TypeAwareDistance {
                 //soma a similaridade entre r1 e s1 só se for para a mesma entidade
                 if (vR1.getEntityID().equals(vS1.getEntityID())) {
                     //System.out.println("Avaliando a entity: " + vR1.getEntityID());
-                    //System.out.println("Pages: "+vR1.getPageID()+" X "+vS1.getPageID());
-                    sharedEntityIds.add(vR1.getEntityID());
+                    //System.out.println("Pages: "+vR1.getPageID()+" X "+vS1.getPageID());                    
 
                     if (vR1.getValue() == null && vS1.getValue() == null) {
-                        distance += 0; //só para constar
+                        distance += 0; //só para constar -- não entrar no shareEntityIds, logo não dividirá ali embaixo pq se os dois são nulos ignora (não pode significar acerto senão prioriza duas regras que só extraem em uma página)
                     } else if (vR1.getValue() == null || vS1.getValue() == null) {
                         distance += 1;
+                        sharedEntityIds.add(vR1.getEntityID());
                     } else {
                         distance += distance(vR1.getValue(), vS1.getValue());
+                        sharedEntityIds.add(vR1.getEntityID());
                     }
                 }
             }
