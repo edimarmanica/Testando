@@ -80,7 +80,9 @@ public class Rule {
         Set<String> valuesString = new HashSet<>();
 
         for (Value v : values) {
-            valuesString.add(v.getPageID() + "_" + v.getValue());
+            if (v.getValue() != null) {
+                valuesString.add(v.getPageID() + "_" + v.getValue());
+            }
         }
 
         return valuesString;

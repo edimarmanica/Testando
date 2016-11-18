@@ -7,7 +7,6 @@ package br.edimarmanica.weir_3_0.check;
 
 import br.edimarmanica.dataset.Site;
 import br.edimarmanica.weir_3_0.bean.Rule;
-import br.edimarmanica.weir_3_0.distance.TypeAwareDistance;
 import br.edimarmanica.weir_3_0.load.LoadRules;
 import br.edimarmanica.weir_3_0.util.Conjuntos;
 import java.util.ArrayList;
@@ -38,8 +37,17 @@ public class IntersectionCheck {
         Rule rule2 = loadRule(r2, siteR2);
         
         Conjuntos<String> util = new Conjuntos<>();
+        boolean intersection = !util.intersection(rule1.getPairsPageValue(), rule2.getPairsPageValue()).isEmpty();
+        System.out.println("Intersection: " + intersection);
+        if (intersection){
+            for(String pv: rule1.getPairsPageValue()){
+                if (rule2.getPairsPageValue().contains(pv)){
+                    System.out.println(pv);
+                }
+            }
+        }
 
-        System.out.println("Intersection: " + !util.intersection(rule1.getPairsPageValue(), rule2.getPairsPageValue()).isEmpty());
+        
     }
 
     private Rule loadRule(int ruleID, Site site) {
@@ -54,10 +62,10 @@ public class IntersectionCheck {
     }
 
     public static void main(String[] args) {
-        Site siteR1 = br.edimarmanica.dataset.orion.driver.Site.EURO_SPORTS;
-        int r1 = 0;
-        Site siteR2 = br.edimarmanica.dataset.orion.driver.Site.EURO_SPORTS;
-        int r2 = 16;
+        Site siteR1 = br.edimarmanica.dataset.orion.driver.Site.F1;
+        int r1 = 4;
+        Site siteR2 = br.edimarmanica.dataset.orion.driver.Site.F1;
+        int r2 = 43;
 
         IntersectionCheck check = new IntersectionCheck(r1, r2, siteR1, siteR2);
         check.print();

@@ -7,8 +7,9 @@ package br.edimarmanica.weir_3_0.distance;
 import br.edimarmanica.weir_3_0.bean.Rule;
 import br.edimarmanica.weir_3_0.bean.Value;
 import com.wcohen.ss.BasicStringWrapperIterator;
-import com.wcohen.ss.UnsmoothedJS;
+import com.wcohen.ss.DirichletJS;
 import com.wcohen.ss.api.StringWrapper;
+import com.wcohen.ss.tokens.NGramTokenizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public class StringDistance extends TypeAwareDistance {
 
-    private UnsmoothedJS distance;
+    private DirichletJS distance;
 
     @Override
     public double distance(Rule r1, Rule s1) throws InsufficientOverlapException {
@@ -38,7 +39,7 @@ public class StringDistance extends TypeAwareDistance {
      * @return
      */
     private void train(Rule r1, Rule s1) {
-        distance = new UnsmoothedJS();
+        distance = new DirichletJS(NGramTokenizer.DEFAULT_TOKENIZER, 1.0);
 
         /**
          * add the values of r1 and s1 to the corpus

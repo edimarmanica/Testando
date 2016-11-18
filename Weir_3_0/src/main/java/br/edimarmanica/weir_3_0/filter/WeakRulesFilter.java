@@ -142,8 +142,14 @@ public class WeakRulesFilter extends Filter {
         }
 
         //calcula o escore entre as regras dos sites diferentes
+        int faltam = rulesSite.size()*rulesComparedSite.size();
         for (int i = 0; i < rulesSite.size() - 1; i++) {
             for (int j = 0; j < rulesComparedSite.size(); j++) {
+                if (General.DEBUG){
+                    System.out.println("\tFaltam "+faltam+" comparações!");
+                    faltam--;
+                }
+                
                 //sempre a intersecção será vazia pois são de sites diferentes
                 double score = TypeAwareDistance.typeDistance(rulesSite.get(i), rulesComparedSite.get(j));
                 if (score == -1) { //Número insuficiente de instâncias compartilhadas
@@ -184,7 +190,7 @@ public class WeakRulesFilter extends Filter {
 
     public static void main(String[] args) {
         General.DEBUG = true;
-        Site site = br.edimarmanica.dataset.orion.driver.Site.EURO_SPORTS;
+        Site site = br.edimarmanica.dataset.orion.driver.Site.F1;
         String path = Paths.PATH_INTRASITE;
         WeakRulesFilter filter = new WeakRulesFilter(site, path, IdenticalValuesFilter.NAME);
         filter.execute();
