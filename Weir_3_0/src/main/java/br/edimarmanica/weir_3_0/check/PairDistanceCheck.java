@@ -51,10 +51,12 @@ public class PairDistanceCheck {
     }
 
     public static void main(String[] args) {
-        Site siteR1 = br.edimarmanica.dataset.orion.driver.Site.EURO_SPORTS;
-        int r1 = 0;
-        Site siteR2 = br.edimarmanica.dataset.orion.driver.Site.EURO_SPORTS;
-        int r2 = 16;
+        Site siteR1 = br.edimarmanica.dataset.orion.driver.Site.F1;
+        int r1 = 43;
+        Site siteR2 = br.edimarmanica.dataset.orion.driver.Site.GPUPDATE;
+        int r2 = 4932;
+        //F1_r4 X GP_r5605 = 0,85
+        // F143 X GP_r4932 = 0,3529
 
         PairDistanceCheck check = new PairDistanceCheck(r1, r2, siteR1, siteR2);
         check.printDistance();
