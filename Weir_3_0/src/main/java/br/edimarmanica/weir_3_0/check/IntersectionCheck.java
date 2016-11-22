@@ -37,7 +37,7 @@ public class IntersectionCheck {
         Rule rule2 = loadRule(r2);
 
         Conjuntos<String> util = new Conjuntos<>();
-        boolean intersection = !util.intersection(rule1.getPairsPageValue(), rule2.getPairsPageValue()).isEmpty();
+        boolean intersection = util.hasIntersection(rule1.getPairsPageValue(), rule2.getPairsPageValue());
         System.out.println("Intersection: " + intersection);
         if (intersection) {
             for (String pv : rule1.getPairsPageValue()) {

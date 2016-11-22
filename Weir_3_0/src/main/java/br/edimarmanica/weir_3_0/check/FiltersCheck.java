@@ -12,7 +12,7 @@ import static br.edimarmanica.weir_3_0.filter.Filter.HEADER;
 import br.edimarmanica.weir_3_0.filter.FirstFilter;
 import br.edimarmanica.weir_3_0.filter.IdenticalValuesFilter;
 import br.edimarmanica.weir_3_0.filter.NullValuesFilter;
-import br.edimarmanica.weir_3_0.filter.WeakRulesFilter;
+import br.edimarmanica.weir_3_0.filter.weakfilter.WeakRulesFilter;
 import br.edimarmanica.weir_3_0.load.LoadRules;
 import br.edimarmanica.weir_3_0.util.Conjuntos;
 import java.io.FileNotFoundException;
@@ -103,7 +103,7 @@ public class FiltersCheck {
         for (Integer finalRule : loadRulesFilter(WeakRulesFilter.NAME)) {
             Rule rf = loadRule(finalRule);
 
-            if (!util.intersection(r.getPairsPageValue(), rf.getPairsPageValue()).isEmpty()) {
+            if (util.hasIntersection(r.getPairsPageValue(), rf.getPairsPageValue())) {
                 return rf.getRuleID();
             }
         }
