@@ -8,6 +8,7 @@ import br.edimarmanica.configuration.Paths;
 import br.edimarmanica.dataset.Site;
 import br.edimarmanica.weir_3_0.bean.Rule;
 import br.edimarmanica.weir_3_0.bean.Value;
+import br.edimarmanica.weir_3_0.distance.DataTypeController;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -91,6 +92,7 @@ public class LoadRules {
                 }
             }
 
+            newRule.setType(DataTypeController.getMostFrequentType(newRule));
             rules.add(newRule);
         }
 

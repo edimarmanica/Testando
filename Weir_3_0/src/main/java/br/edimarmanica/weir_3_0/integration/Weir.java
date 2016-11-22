@@ -13,7 +13,7 @@ import br.edimarmanica.weir_3_0.bean.Rule;
 import br.edimarmanica.weir_3_0.bean.ScoredPair;
 import br.edimarmanica.weir_3_0.distance.TypeAwareDistance;
 import static br.edimarmanica.weir_3_0.filter.Filter.HEADER;
-import br.edimarmanica.weir_3_0.filter.WeakRulesFilter;
+import br.edimarmanica.weir_3_0.filter.weakfilter.WeakRulesFilter;
 import br.edimarmanica.weir_3_0.load.LoadRules;
 import java.io.BufferedWriter;
 import java.io.File;

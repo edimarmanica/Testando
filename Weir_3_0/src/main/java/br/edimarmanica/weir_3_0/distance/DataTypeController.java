@@ -6,8 +6,6 @@ package br.edimarmanica.weir_3_0.distance;
 
 import br.edimarmanica.weir_3_0.bean.Rule;
 import br.edimarmanica.weir_3_0.bean.Value;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,8 +105,8 @@ public class DataTypeController {
         /**
          * Hieraquia
          */
-        DataType tR1 = getMostFrequentType(r1);
-        DataType tR2 = getMostFrequentType(r2);
+        DataType tR1 = r1.getType();
+        DataType tR2 = r2.getType();
 
         if (tR1 == tR2) {
             return tR1;

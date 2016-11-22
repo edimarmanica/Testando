@@ -5,6 +5,7 @@
 package br.edimarmanica.weir_3_0.bean;
 
 import br.edimarmanica.dataset.Site;
+import br.edimarmanica.weir_3_0.distance.DataType;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -20,6 +21,7 @@ public class Rule {
     private final String ruleCypher;
     private Set<Value> values;
     private final Site site;
+    private DataType type;
 
     public Rule(int ruleID, Site site, String label, String ruleCypher) {
         this.ruleID = ruleID;
@@ -86,6 +88,14 @@ public class Rule {
         }
 
         return valuesString;
+    }
+
+    public DataType getType() {
+        return type;
+    }
+
+    public void setType(DataType type) {
+        this.type = type;
     }
 
     @Override

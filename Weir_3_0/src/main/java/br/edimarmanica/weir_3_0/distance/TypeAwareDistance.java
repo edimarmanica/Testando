@@ -17,7 +17,7 @@ import java.util.Set;
 public abstract class TypeAwareDistance {
 
     public static double typeDistance(Rule r1, Rule s1) {
-       /* if (General.DEBUG) {
+        /*if (General.DEBUG) {
             System.out.println("Computing the distance between rule " + r1.getRuleID() + " of Site " + r1.getSite().getFolderName() + " with rule " + s1.getRuleID() + " of Site " + s1.getSite().getFolderName());
         }*/
 

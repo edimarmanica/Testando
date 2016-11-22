@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edimarmanica.weir_3_0.filter;
+package br.edimarmanica.weir_3_0.filter.weakfilter;
 
 import br.edimarmanica.configuration.General;
 import br.edimarmanica.configuration.Paths;
@@ -11,6 +11,8 @@ import br.edimarmanica.dataset.Site;
 import br.edimarmanica.weir_3_0.bean.Rule;
 import br.edimarmanica.weir_3_0.bean.ScoredPair;
 import br.edimarmanica.weir_3_0.distance.TypeAwareDistance;
+import br.edimarmanica.weir_3_0.filter.Filter;
+import br.edimarmanica.weir_3_0.filter.IdenticalValuesFilter;
 import br.edimarmanica.weir_3_0.util.Conjuntos;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -36,6 +38,7 @@ public class WeakRulesFilter extends Filter {
     public static final String NAME = "weak_filter";
     private final Site comparedSite;
     private final Conjuntos<String> util = new Conjuntos<>();
+    
 
     public WeakRulesFilter(Site site, String path, String lastFilter) {
         this.site = site;
@@ -77,14 +80,14 @@ public class WeakRulesFilter extends Filter {
             boolean hasIntersection = false;
             for (Rule rc : completeRules) {
                 if (rc.getSite() == pair.getR1().getSite()) {//só pode haver intersecção não vazia entre regras do mesmo site
-                    if (!util.intersection(rc.getPairsPageValue(), pair.getR1().getPairsPageValue()).isEmpty()) {
+                    if (util.hasIntersection(rc.getPairsPageValue(), pair.getR1().getPairsPageValue())) {
                         hasIntersection = true;
                         printLog("\t " + pair.getR1().getRuleID() + "(Site: " + pair.getR1().getSite() + ") has intersection with " + rc.getRuleID() + " (Site: " + rc.getSite() + ")", true);
                         break;
                     }
                 }
                 if (rc.getSite() == pair.getR2().getSite()) {//só pode haver intersecção não vazia entre regras do mesmo site
-                    if (!util.intersection(rc.getPairsPageValue(), pair.getR2().getPairsPageValue()).isEmpty()) {
+                    if (util.hasIntersection(rc.getPairsPageValue(), pair.getR2().getPairsPageValue())) {
                         hasIntersection = true;
                         printLog("\t " + pair.getR2().getRuleID() + "(Site: " + pair.getR2().getSite() + ") has intersection with " + rc.getRuleID() + " (Site: " + rc.getSite() + ")", true);
                         break;
@@ -121,49 +124,8 @@ public class WeakRulesFilter extends Filter {
      * @return
      */
     private List<ScoredPair> scorePairs(List<Rule> rulesSite, List<Rule> rulesComparedSite) {
-        List<ScoredPair> scores = new ArrayList<>();
-
-        //calcula o escore entre as regras do mesmo site
-        for (int i = 0; i < rulesSite.size() - 1; i++) {
-            for (int j = i + 1; j < rulesSite.size(); j++) {
-                //só calcula o score das regras cuja intersecção é vazia    
-                if (!util.intersection(rulesSite.get(i).getPairsPageValue(), rulesSite.get(j).getPairsPageValue()).isEmpty()) {
-                    continue;
-                }
-                double score = TypeAwareDistance.typeDistance(rulesSite.get(i), rulesSite.get(j));
-                if (score == -1) {//Número insuficiente de instâncias compartilhadas
-                    continue;
-                }
-                if (score == 1) {//regras completas não terão distância 1
-                    continue;
-                }
-                scores.add(new ScoredPair(rulesSite.get(i), rulesSite.get(j), score));
-            }
-        }
-
-        //calcula o escore entre as regras dos sites diferentes
-        int faltam = rulesSite.size()*rulesComparedSite.size();
-        for (int i = 0; i < rulesSite.size() - 1; i++) {
-            for (int j = 0; j < rulesComparedSite.size(); j++) {
-                if (General.DEBUG){
-                    System.out.println("\tFaltam "+faltam+" comparações!");
-                    faltam--;
-                }
-                
-                //sempre a intersecção será vazia pois são de sites diferentes
-                double score = TypeAwareDistance.typeDistance(rulesSite.get(i), rulesComparedSite.get(j));
-                if (score == -1) { //Número insuficiente de instâncias compartilhadas
-                    continue;
-                }
-                if (score == 1) { //regras completas não terão distância 1
-                    continue;
-                }
-                scores.add(new ScoredPair(rulesSite.get(i), rulesComparedSite.get(j), score));
-            }
-        }
-
-        Collections.sort(scores); //non-decresing order
-        return scores;
+        ParallelScorePairs scores = new ParallelScorePairs(rulesSite, rulesComparedSite);
+        return scores.scorePairs();
     }
 
     protected void printLog(String line, boolean append) {
@@ -190,7 +152,7 @@ public class WeakRulesFilter extends Filter {
 
     public static void main(String[] args) {
         General.DEBUG = true;
-        Site site = br.edimarmanica.dataset.orion.driver.Site.F1;
+        Site site = br.edimarmanica.dataset.orion.driver.Site.GPUPDATE;
         String path = Paths.PATH_INTRASITE;
         WeakRulesFilter filter = new WeakRulesFilter(site, path, IdenticalValuesFilter.NAME);
         filter.execute();
